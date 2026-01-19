@@ -1,0 +1,16 @@
+[
+  {
+    "title": "你好，世界：我的博客开张了",
+    "date": "2026-01-19",
+    "url": "https://example.com/post/hello",
+    "tags": ["随笔", "起步"],
+    "desc": "为什么我开始写博客，以及我打算写些什么。"
+  },
+  {
+    "title": "我常用的效率工具清单",
+    "date": "2026-01-10",
+    "url": "https://example.com/post/tools",
+    "tags": ["工具"],
+    "desc": "写作、整理、阅读、笔记，一套顺手的组合。"
+  }
+]
