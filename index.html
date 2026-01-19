@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>你的名字 · Blog</title>
+  <meta name="description" content="你的个人博客主页，记录学习、写作与生活。" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="container header">
+    <div class="profile">
+      <img class="avatar" src="https://avatars.githubusercontent.com/u/1?v=4" alt="avatar" />
+      <div class="meta">
+        <h1>你的名字</h1>
+        <p class="bio">一句话简介：专注于 XX / 写作 / 产品 / 技术。</p>
+        <div class="links">
+          <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://twitter.com/" target="_blank" rel="noreferrer">X</a>
+          <a href="mailto:you@example.com">Email</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>最新文章</h2>
+      <ul id="postList" class="post-list"></ul>
+      <p class="hint">提示：编辑 <code>posts.json</code> 就能更新文章列表。</p>
+    </section>
+
+    <section class="card">
+      <h2>关于我</h2>
+      <p>
+        这里写一段稍长的介绍：你在做什么、关心什么、这个博客会写什么。
+        也可以放你的简历链接或作品集。
+      </p>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <span>© <span id="year"></span> 你的名字</span>
+    <span class="dot">·</span>
+    <a href="https://github.com/你的用户名/你的仓库" target="_blank" rel="noreferrer">源码</a>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    async function loadPosts() {
+      try {
+        const res = await fetch("./posts.json", { cache: "no-store" });
+        const posts = await res.json();
+        const list = document.getElementById("postList");
+
+        list.innerHTML = posts
+          .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+          .map(p => `
+            <li class="post-item">
+              <a class="post-title" href="${p.url}" target="_blank" rel="noreferrer">${p.title}</a>
+              <div class="post-meta">
+                <span>${p.date || ""}</span>
+                ${p.tags?.length ? `<span class="sep">·</span><span>${p.tags.join(" / ")}</span>` : ""}
+              </div>
+              ${p.desc ? `<p class="post-desc">${p.desc}</p>` : ""}
+            </li>
+          `).join("");
+      } catch (e) {
+        document.getElementById("postList").innerHTML =
+          `<li class="post-item">未能加载文章列表，请检查 posts.json 是否存在或格式是否正确。</li>`;
+      }
+    }
+
+    loadPosts();
+  </script>
+</body>
+</html>
